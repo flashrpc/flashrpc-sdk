@@ -1,4 +1,4 @@
-export declare function sendTransaction(encodedTx: string, encoding: string, maxDelayMs?: number): Promise<void>;
+export declare function sendTransaction(rawTransaction: Buffer | Uint8Array | Array<number>, maxDelayMs?: number): Promise<void>;
 declare const _default: {
     sendTransaction: typeof sendTransaction;
 };

@@ -40,18 +40,25 @@ exports.sendTransaction = sendTransaction;
 var axios_1 = require("axios");
 var FLASH_RPC_URL = 'https://flashrpc.com/';
 var DEFAULT_MAX_DELAY = 500; // 500ms
-function sendTransaction(encodedTx_1, encoding_1) {
-    return __awaiter(this, arguments, void 0, function (encodedTx, encoding, maxDelayMs) {
-        var payload, timeoutPromise, axiosPromise, error_1;
+function toBuffer(rawTransaction) {
+    if (rawTransaction instanceof Buffer) {
+        return rawTransaction;
+    }
+    return Buffer.from(rawTransaction);
+}
+function sendTransaction(rawTransaction_1) {
+    return __awaiter(this, arguments, void 0, function (rawTransaction, maxDelayMs) {
+        var encodedTransaction, payload, timeoutPromise, axiosPromise, error_1;
         if (maxDelayMs === void 0) { maxDelayMs = DEFAULT_MAX_DELAY; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    encodedTransaction = toBuffer(rawTransaction).toString('base64');
                     payload = {
                         jsonrpc: '2.0',
                         method: 'sendTransaction',
-                        params: [encodedTx, {
-                                encoding: encoding,
+                        params: [encodedTransaction, {
+                                encoding: 'base64',
                             }],
                         id: 1
                     };
